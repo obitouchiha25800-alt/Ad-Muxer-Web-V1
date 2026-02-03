@@ -1,25 +1,21 @@
 #!/usr/bin/env bash
-# exit on error
+# Exit on error
 set -o errexit
 
-STORAGE_DIR=/opt/render/project/src/persistent
-
-# Install Python Requirements
+# Install Python dependencies
+pip install --upgrade pip
 pip install -r requirements.txt
 
-# Create folder for FFmpeg
-mkdir -p ffmpeg
+# Create bin folder for FFmpeg
+mkdir -p bin
 
-# Download FFmpeg
+# Download FFmpeg (Static Build for Linux)
 echo "Downloading FFmpeg..."
-wget https://johnvansickle.com/ffmpeg/releases/ffmpeg-release-amd64-static.tar.xz
+curl -L https://github.com/BtbN/FFmpeg-Builds/releases/download/latest/ffmpeg-master-latest-linux64-gpl.tar.xz -o ffmpeg.tar.xz
 
-# Extract FFmpeg
-echo "Extracting FFmpeg..."
-tar xvf ffmpeg-release-amd64-static.tar.xz --strip-components=1 -C ffmpeg
+# Extract
+tar -xf ffmpeg.tar.xz --strip-components=1 -C bin/
 
-# Clean up zip file
-rm ffmpeg-release-amd64-static.tar.xz
-
-# Add to PATH (Temporary for build)
-export PATH=$PATH:/opt/render/project/src/ffmpeg
+# Cleanup
+rm ffmpeg.tar.xz
+echo "Build Successful! 🚀"
